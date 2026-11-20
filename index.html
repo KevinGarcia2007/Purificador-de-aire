@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0b1e1a"/>
+<title>PLAN PLANTA · Air Quality Intelligence</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><div class="brand-icon">✿</div><div><strong>PLAN PLANTA</strong><small>AIR QUALITY INTELLIGENCE · SIMULADOR</small></div></div>
+  <nav aria-label="Secciones"><button class="nav active" data-target="inicio">🌻 Planta</button><button class="nav" data-target="tablero">▥ Dashboard</button><button class="nav" data-target="historial">▤ Historial</button></nav>
+  <span class="status"><span class="status-dot"></span> MODO SIMULACIÓN</span>
+</header>
+<main>
+<section id="inicio" class="view active">
+  <div class="section-heading"><div><p class="eyebrow">LABORATORIO DE INNOVACIÓN · BI</p><h1>Una planta que <em>limpia el aire.</em></h1><p class="subtitle">Simula el ingreso de contaminantes, inspecciona la tecnología interna y compara la calidad del aire antes y después del tratamiento.</p></div><div class="mode-toggle" role="group" aria-label="Vista de la planta"><button id="normalBtn" class="selected">🌻 Normal</button><button id="xrayBtn">◈ X-Ray</button></div></div>
+  <div class="main-grid">
+   <div class="plant-card panel">
+    <div class="floating-label left-label"><span class="red-dot"></span> AIRE CONTAMINADO <strong>ENTRADA</strong></div>
+    <div class="floating-label right-label"><span class="green-dot"></span> AIRE TRATADO <strong>SALIDA</strong></div>
+    <div class="plant-stage" id="plantStage">
+      <div class="airflow left-flow" id="dirtyFlow" aria-hidden="true"></div><div class="airflow right-flow" id="cleanFlow" aria-hidden="true"></div>
+      <svg id="plantSvg" viewBox="0 0 550 520" role="img" aria-label="Girasol purificador animado con modo rayos X" xmlns="http://www.w3.org/2000/svg">
+       <defs>
+        <radialGradient id="faceGrad" cx="38%" cy="27%" r="75%"><stop stop-color="#ffdf66"/><stop offset=".52" stop-color="#fcb83e"/><stop offset="1" stop-color="#b95c19"/></radialGradient>
+        <linearGradient id="petalGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff065"/><stop offset=".55" stop-color="#ffc928"/><stop offset="1" stop-color="#db810e"/></linearGradient>
+        <linearGradient id="stemGrad"><stop stop-color="#165c32"/><stop offset=".45" stop-color="#54b94a"/><stop offset="1" stop-color="#124f32"/></linearGradient>
+        <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#95de55"/><stop offset=".55" stop-color="#388f39"/><stop offset="1" stop-color="#0d4833"/></linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+       </defs>
+       <ellipse cx="275" cy="468" rx="149" ry="21" fill="#000" opacity=".18"/>
+       <g id="plantBody">
+        <path d="M269 258 C285 340 255 386 273 453" fill="none" stroke="#0d512e" stroke-width="32" stroke-linecap="round"/>
+        <path d="M269 258 C285 340 255 386 273 453" fill="none" stroke="url(#stemGrad)" stroke-width="24" stroke-linecap="round"/>
+        <path d="M269 361 C220 319 155 324 137 370 C173 399 227 398 269 361Z" fill="url(#leafGrad)" stroke="#145531" stroke-width="4"/>
+        <path d="M273 390 C317 329 385 330 406 365 C368 404 309 410 273 390Z" fill="url(#leafGrad)" stroke="#145531" stroke-width="4"/>
+        <path d="M258 430 C194 395 123 411 107 455 C150 480 219 488 258 449Z" fill="url(#leafGrad)" stroke="#145531" stroke-width="4"/>
+        <path d="M281 443 C319 397 395 405 426 449 C400 483 320 492 281 457Z" fill="url(#leafGrad)" stroke="#145531" stroke-width="4"/>
+        <path d="M125 454 Q196 429 253 443 M283 449 Q350 422 408 452" fill="none" stroke="#9cdd69" stroke-width="3" opacity=".65"/>
+       </g>
+       <g id="flowerHead"><g id="petals"></g><circle cx="275" cy="196" r="111" fill="#b95b16" stroke="#a65315" stroke-width="5"/><circle cx="275" cy="188" r="103" fill="url(#faceGrad)" stroke="#ffc052" stroke-width="4"/>
+        <g id="face"><ellipse cx="239" cy="165" rx="19" ry="26" fill="#4a240d"/><ellipse cx="317" cy="165" rx="19" ry="26" fill="#4a240d"/><ellipse cx="233" cy="155" rx="7" ry="9" fill="white"/><ellipse cx="311" cy="155" rx="7" ry="9" fill="white"/><circle cx="245" cy="177" r="3" fill="white" opacity=".8"/><circle cx="323" cy="177" r="3" fill="white" opacity=".8"/><path id="smile" d="M224 217 Q273 258 327 211" fill="none" stroke="#663310" stroke-width="7" stroke-linecap="round"/></g>
+       </g>
+       <g id="xrayInternals" class="xray-internals">
+         <path d="M273 424 L273 273" stroke="#67f4ed" stroke-width="12" stroke-linecap="round" opacity=".45"/><path d="M273 423 L273 274" stroke="#9dfbff" stroke-width="3" stroke-dasharray="10 7"/>
+         <circle cx="275" cy="188" r="104" fill="#042d35" fill-opacity=".80" stroke="#8dfaff" stroke-width="3"/>
+         <g id="sensorDots"></g>
+         <path d="M275 85 V130 M275 247 V292" stroke="#55fbff" stroke-width="6" stroke-linecap="round"/>
+         <rect x="233" y="133" width="84" height="53" rx="7" fill="#a4eef3" stroke="#d3ffff" stroke-width="3"/>
+         <g id="hepaLines"></g>
+         <rect x="231" y="190" width="88" height="44" rx="6" fill="#132d3a" stroke="#6df1f2" stroke-width="3"/><g id="carbonCells"></g>
+         <circle cx="275" cy="259" r="20" fill="#123e50" stroke="#8afcff" stroke-width="3"/><g id="fan"><path d="M275 256 C244 234 245 266 272 260Z M278 259 C305 235 310 261 279 264Z M275 260 C261 294 295 290 279 262Z" fill="#75f3f7"/></g><circle cx="275" cy="259" r="5" fill="white"/>
+         <path d="M267 300 L275 286 L283 300 M267 120 L275 106 L283 120" stroke="#9ffcff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+       </g>
+      </svg>
+      <div class="xray-tags" id="xrayTags"><div class="tag sensor-tag">◈ SENSORES EN PÉTALOS <small>PM2.5 · PM10 · CO₂ · CO</small></div><div class="tag hepa-tag">▥ FILTRO HEPA <small>Retiene partículas</small></div><div class="tag carbon-tag">⬡ CARBÓN ACTIVADO <small>Adsorbe determinados gases</small></div><div class="tag fan-tag">✳ VENTILADOR <small>Circulación simulada</small></div></div>
+    </div>
+    <div class="plant-bottom"><div><div class="plant-state" id="plantState">● Sistema preparado</div><span class="small-muted" id="plantMessage">Configura la contaminación e inicia el tratamiento.</span></div><div class="efficiency-pill" id="efficiencyPill">🌿 Esperando análisis</div></div>
+   </div>
+   <aside class="control-column">
+     <div class="panel controls-panel"><div class="panel-title"><span>01 · MONITOREO</span><span class="pill">Valores de entrada</span></div><p class="control-hint">Introduce las lecturas que detectan los sensores virtuales.</p>
+      <div class="input-grid"><label>PM2.5 <small>µg/m³</small><input id="pm25In" type="number" min="0" max="10000" step="1" value="75"/></label><label>PM10 <small>µg/m³</small><input id="pm10In" type="number" min="0" max="10000" step="1" value="118"/></label><label>CO₂ <small>ppm</small><input id="co2In" type="number" min="0" max="100000" step="1" value="1200"/></label><label>CO <small>ppm</small><input id="coIn" type="number" min="0" max="10000" step=".1" value="9"/></label></div>
+      <div class="quality-line"><span>Estado inicial</span><b id="initialQuality" class="quality bad">CONTAMINADO</b></div>
+     </div>
+     <div class="panel controls-panel"><div class="panel-title"><span>02 · PURIFICACIÓN</span><span class="pill turquoise">Sistema virtual</span></div>
+      <label class="field-label" for="filterSelect">Tecnología de tratamiento</label><select id="filterSelect"><option value="comboVent">HEPA + Carbón + Ventilación</option><option value="combo">HEPA + Carbón activado</option><option value="hepa">Solo HEPA</option><option value="carbon">Solo carbón activado</option><option value="vent">Ventilación / renovación de aire</option></select>
+      <label class="field-label" for="duration">Duración del proceso: <strong id="durationText">10 min</strong></label><input type="range" id="duration" min="2" max="30" step="1" value="10"/>
+      <div class="progress-heading"><span>Progreso</span><strong id="progressText">0%</strong></div><div class="progress-track"><div id="progressFill"></div></div>
+      <div class="button-stack"><button id="startBtn" class="primary-btn">▶ Iniciar purificación</button><div class="two-buttons"><button id="pauseBtn" class="secondary-btn" disabled>⏸ Pausar</button><button id="resetBtn" class="secondary-btn">↺ Reiniciar</button></div></div>
+      <p class="footnote">Una ejecución dura unos segundos reales. Cada ciclo queda registrado al finalizar.</p>
+     </div>
+     <div class="panel results-panel"><div class="panel-title"><span>03 · VALIDACIÓN</span><span class="pill" id="resultStatus">Pendiente</span></div><div class="result-grid" id="resultGrid"></div></div>
+   </aside>
+  </div>
+  <div class="kpi-row" id="homeKpis"></div>
+</section>
+<section id="tablero" class="view"><div class="section-heading"><div><p class="eyebrow">INTELIGENCIA DE NEGOCIOS</p><h1>Centro de <em>análisis.</em></h1><p class="subtitle">Comparaciones, evolución histórica, eficiencia y alertas para apoyar decisiones.</p></div><button id="demoBtn" class="secondary-btn">＋ Generar datos de demostración</button></div>
+<div class="kpi-row" id="dashKpis"></div><div class="charts-grid"><article class="panel chart-panel"><h3>Contaminantes antes y después</h3><p class="small-muted">PM2.5 y PM10 en µg/m³, CO en ppm · último ciclo</p><canvas id="compareChart" aria-label="Gráfico de barras de antes y después"></canvas></article><article class="panel chart-panel"><h3>Histórico de PM2.5</h3><p class="small-muted">Mediciones de entrada y salida por ciclo</p><canvas id="historyChart" aria-label="Gráfico de líneas del historial de PM2.5"></canvas></article><article class="panel chart-panel"><h3>Reducción por contaminante</h3><p class="small-muted">Porcentaje de disminución en el último ciclo</p><canvas id="reductionChart" aria-label="Gráfico de porcentajes de reducción"></canvas></article><article class="panel alert-panel"><h3>⚠ Alertas inteligentes</h3><p class="small-muted">Reglas configurables del simulador, no certificación sanitaria.</p><div id="alerts"></div><div class="action-feedback" id="actionFeedback" role="status" aria-live="polite">Selecciona “Tomar acción” para aplicar una recomendación en el simulador.</div><div class="legend">CO₂ alto → sugerir ventilación · PM2.5 alto → filtración de partículas · CO alto → revisar fuente y seguridad.</div></article></div>
+</section>
+<section id="historial" class="view"><div class="section-heading"><div><p class="eyebrow">HISTORIAL Y BASE DE DATOS</p><h1>Registro de <em>mediciones.</em></h1><p class="subtitle">Los datos se guardan localmente. Al configurar Supabase, también se sincronizan con tu base de datos privada mediante RLS.</p></div><div class="actions"><button class="secondary-btn" id="csvBtn">↓ Exportar CSV</button><button class="secondary-btn" id="jsonBtn">↓ Exportar JSON</button><button class="danger-btn" id="clearBtn">Eliminar historial</button></div></div><div class="panel cloud-panel"><div class="cloud-header"><div><strong>☁ Sincronización con Supabase</strong><p class="small-muted">Configura <code>config.js</code> y habilita inicio de sesión anónimo en Supabase. Sin configurar, la aplicación funciona sin internet.</p></div><div class="cloud-controls"><span id="cloudStatus" role="status">Modo local · sin configurar</span><button class="secondary-btn" id="syncBtn">↻ Sincronizar</button></div></div></div><div class="panel history-panel"><div class="history-header"><strong id="recordCount">0 ciclos guardados</strong><span class="small-muted">Resultados de simulación · no datos medidos por hardware</span></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Filtro</th><th>Min</th><th>PM2.5 antes → después</th><th>PM10 antes → después</th><th>CO₂ antes → después</th><th>CO antes → después</th><th>Reducción PM2.5</th></tr></thead><tbody id="historyRows"></tbody></table></div></div></section>
+</main>
+<footer><span>🌻 PLAN PLANTA · Prototipo académico Air Quality Intelligence</span><span>Los datos y efectos de purificación son simulados. No sustituye sensores o equipos reales.</span></footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body></html>
